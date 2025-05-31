@@ -248,6 +248,7 @@ export function useWorkflow() {
       }
       const respData = await response.json()
       const pipelineResult = await pollStatus(respData.operation_id)
+      console.log("AI Pipeline Generation Result:", pipelineResult)
       setResults((prev) => ({ ...prev, pipeline: pipelineResult }))
       toast.success("Pipeline generated with OpenAI!", { id: "pipeline-ai" })
     } catch (err) {
