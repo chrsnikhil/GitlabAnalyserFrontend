@@ -28,7 +28,7 @@ export function useWorkflow() {
     let attempts = 0
 
     // Add initial delay before starting to poll
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    await new Promise(resolve => setTimeout(resolve, 5000))
 
     while (attempts < maxAttempts) {
       try {
