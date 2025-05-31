@@ -229,7 +229,7 @@ export function useWorkflow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           repo_url: data.repositoryUrl,
-          branch: data.branch,
+          branch: data.branch
         }),
       })
       if (!response.ok) {
