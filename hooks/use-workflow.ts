@@ -27,6 +27,9 @@ export function useWorkflow() {
     const maxAttempts = 60 // 5 minutes with 5-second intervals
     let attempts = 0
 
+    // Add initial delay before starting to poll
+    await new Promise(resolve => setTimeout(resolve, 2000))
+
     while (attempts < maxAttempts) {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/status/${operationId}`)
