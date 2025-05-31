@@ -26,6 +26,7 @@ export function useWorkflow() {
   const pollStatus = async (operationId: string): Promise<any> => {
     const maxAttempts = 60 // 5 minutes with 5-second intervals
     let attempts = 0
+    let retryDelay = 1000 // Start with 1 second delay
 
     // Add initial delay before starting to poll
     await new Promise(resolve => setTimeout(resolve, 5000))
@@ -33,6 +34,15 @@ export function useWorkflow() {
     while (attempts < maxAttempts) {
       try {
         const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/status/${operationId}`)
+        
+        // Handle 404 responses with retry
+        if (response.status === 404) {
+          console.log(`Operation ${operationId} not found, retrying in ${retryDelay}ms...`)
+          await new Promise(resolve => setTimeout(resolve, retryDelay))
+          retryDelay = Math.min(retryDelay * 1.5, 5000) // Increase delay up to 5 seconds
+          continue
+        }
+
         if (!response.ok) {
           throw new Error(`Status check failed: ${response.statusText}`)
         }
