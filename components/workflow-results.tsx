@@ -6,7 +6,6 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, GitBranch, FileText, Shield, AlertTriangle, CheckCircle, XCircle, Info, Star, Folder as FolderIcon, Package as PackageIcon } from "lucide-react"
-import { useWorkflow } from "@/hooks/use-workflow"
 import { Button } from "@/components/ui/button"
 
 interface WorkflowResultsProps {
@@ -15,10 +14,11 @@ interface WorkflowResultsProps {
     pipeline?: any
     validation?: any
     review?: any
-  }
+  },
+  workflow: any
 }
 
-export function WorkflowResults({ results }: WorkflowResultsProps) {
+export function WorkflowResults({ results, workflow }: WorkflowResultsProps) {
   return (
     <div className="max-w-6xl mx-auto">
       <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
@@ -44,10 +44,10 @@ export function WorkflowResults({ results }: WorkflowResultsProps) {
 
           <TabsContent value="analysis">{results.analysis && <AnalysisResults data={results.analysis} />}</TabsContent>
 
-          <TabsContent value="pipeline">{results.pipeline && <PipelineResults data={results.pipeline} />}</TabsContent>
+          <TabsContent value="pipeline">{results.pipeline && <PipelineResults data={results.pipeline} workflow={workflow} />}</TabsContent>
 
           <TabsContent value="validation">
-            {results.validation && <ValidationResults data={results.validation} />}
+            {results.validation && <ValidationResults data={results.validation} workflow={workflow} />}
           </TabsContent>
 
           <TabsContent value="review">{results.review && <ReviewResults data={results.review} />}</TabsContent>
@@ -116,8 +116,7 @@ function AnalysisResults({ data }: { data: any }) {
   )
 }
 
-function PipelineResults({ data }: { data: any }) {
-  const { generatePipelineWithAI, isRunning, results } = useWorkflow()
+function PipelineResults({ data, workflow }: { data: any, workflow: any }) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <Card className="bg-gray-950 border-gray-800">
@@ -132,8 +131,8 @@ function PipelineResults({ data }: { data: any }) {
             <Button
               variant="outline"
               className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
-              disabled={isRunning}
-              onClick={() => generatePipelineWithAI()}
+              disabled={workflow.isRunning}
+              onClick={() => workflow.generatePipelineWithAI()}
             >
               Generate Pipeline with AI (uses OpenAI credits)
             </Button>
@@ -149,8 +148,7 @@ function PipelineResults({ data }: { data: any }) {
   )
 }
 
-function ValidationResults({ data }: { data: any }) {
-  const { validatePipelineWithAI, isRunning, results } = useWorkflow()
+function ValidationResults({ data, workflow }: { data: any, workflow: any }) {
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <Card className="bg-gray-950 border-gray-800">
@@ -165,8 +163,8 @@ function ValidationResults({ data }: { data: any }) {
             <Button
               variant="outline"
               className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
-              disabled={isRunning || !results.pipeline?.pipeline_yaml}
-              onClick={() => validatePipelineWithAI(results.pipeline?.pipeline_yaml || "")}
+              disabled={workflow.isRunning || !results.pipeline?.pipeline_yaml}
+              onClick={() => workflow.validatePipelineWithAI(results.pipeline?.pipeline_yaml || "")}
             >
               Validate Pipeline with AI (uses OpenAI credits)
             </Button>

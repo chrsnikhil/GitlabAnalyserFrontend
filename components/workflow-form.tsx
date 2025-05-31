@@ -12,11 +12,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { GitBranch, Globe, Shield, Zap, CheckCircle } from "lucide-react"
 
 interface WorkflowFormProps {
-  onSubmit: (data: {
-    repositoryUrl: string
-    branch: string
-    focusAreas: string[]
-  }) => void
+  workflow: any
 }
 
 const focusAreaOptions = [
@@ -25,7 +21,7 @@ const focusAreaOptions = [
   { id: "best-practices", label: "Best Practices", icon: CheckCircle, description: "Code quality and maintainability" },
 ]
 
-export function WorkflowForm({ onSubmit }: WorkflowFormProps) {
+export function WorkflowForm({ workflow }: WorkflowFormProps) {
   const [repositoryUrl, setRepositoryUrl] = useState("")
   const [branch, setBranch] = useState("main")
   const [focusAreas, setFocusAreas] = useState<string[]>([])
@@ -37,7 +33,7 @@ export function WorkflowForm({ onSubmit }: WorkflowFormProps) {
 
     setIsSubmitting(true)
     try {
-      await onSubmit({
+      await workflow.startWorkflow({
         repositoryUrl: repositoryUrl.trim(),
         branch: branch.trim() || "main",
         focusAreas,

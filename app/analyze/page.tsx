@@ -58,7 +58,7 @@ function AnalysisReportModal({ open, onClose }: { open: boolean, onClose: () => 
 }
 
 export default function AnalyzePage() {
-  const { isRunning, currentStep, results, error, startWorkflow, resetWorkflow, showReportModal, setShowReportModal } = useWorkflow()
+  const workflow = useWorkflow();
 
   return (
     <div className="min-h-screen bg-black text-white flex flex-col [background-image:linear-gradient(to_right,rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.05)_1px,transparent_1px)] [background-size:40px_40px] [background-position:center] [background-repeat:repeat]">
@@ -74,11 +74,11 @@ export default function AnalyzePage() {
               <p className="text-sm text-gray-400">AI-Powered Code Analysis</p>
             </div>
           </div>
-          {(isRunning || results.analysis) && (
+          {(workflow.isRunning || workflow.results.analysis) && (
             <motion.button
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              onClick={resetWorkflow}
+              onClick={workflow.resetWorkflow}
               className="px-4 py-2 text-sm border border-gray-700 rounded-lg bg-gray-900 hover:border-gray-600 hover:bg-gray-800 transition-all duration-200"
             >
               New Analysis
@@ -91,40 +91,40 @@ export default function AnalyzePage() {
       <main className="flex-1 w-full px-2 md:px-8 py-8 flex flex-col items-center">
         <div className="w-full max-w-2xl flex flex-col gap-8 mx-auto">
           {/* Form, Progress, Results, Error */}
-          {!isRunning && !results.analysis && (
+          {!workflow.isRunning && !workflow.results.analysis && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
-              <WorkflowForm onSubmit={startWorkflow} />
+              <WorkflowForm workflow={workflow} />
             </motion.div>
           )}
 
-          {isRunning && (
+          {workflow.isRunning && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <WorkflowProgress currentStep={currentStep} />
+              <WorkflowProgress currentStep={workflow.currentStep} />
             </motion.div>
           )}
 
-          {results.analysis && (
+          {workflow.results.analysis && (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
-              <WorkflowResults results={results} />
+              <WorkflowResults results={workflow.results} workflow={workflow} />
             </motion.div>
           )}
 
-          {error && (
+          {workflow.error && (
             <motion.div
               initial={{ opacity: 0, scale: 0.95 }}
               animate={{ opacity: 1, scale: 1 }}
               className="mt-8 p-6 bg-red-950/50 border border-red-800 rounded-lg"
             >
               <h3 className="text-lg font-semibold text-red-400 mb-2">Error</h3>
-              <p className="text-red-300">{error}</p>
+              <p className="text-red-300">{workflow.error}</p>
             </motion.div>
           )}
         </div>
       </main>
 
       {/* Floating Dock */}
-      <FloatingDockDemo resetWorkflow={resetWorkflow} />
-      <AnalysisReportModal open={showReportModal} onClose={() => setShowReportModal(false)} />
+      <FloatingDockDemo resetWorkflow={workflow.resetWorkflow} />
+      <AnalysisReportModal open={workflow.showReportModal} onClose={() => workflow.setShowReportModal(false)} />
       <Toaster />
     </div>
   )
