@@ -6,6 +6,8 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Search, GitBranch, FileText, Shield, AlertTriangle, CheckCircle, XCircle, Info, Star, Folder as FolderIcon, Package as PackageIcon } from "lucide-react"
+import { useWorkflow } from "@/hooks/use-workflow"
+import { Button } from "@/components/ui/button"
 
 interface WorkflowResultsProps {
   results: {
@@ -115,6 +117,7 @@ function AnalysisResults({ data }: { data: any }) {
 }
 
 function PipelineResults({ data }: { data: any }) {
+  const { generatePipelineWithAI, isRunning, results } = useWorkflow()
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <Card className="bg-gray-950 border-gray-800">
@@ -125,6 +128,20 @@ function PipelineResults({ data }: { data: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
+          <div className="flex flex-row gap-4 mb-4">
+            <Button
+              variant="outline"
+              className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
+              disabled={isRunning}
+              onClick={() => generatePipelineWithAI({
+                repositoryUrl: results.analysis?.repo_url || "",
+                branch: results.analysis?.branch || "main",
+                focusAreas: [],
+              })}
+            >
+              Generate Pipeline with AI (uses OpenAI credits)
+            </Button>
+          </div>
           <ScrollArea className="h-96 w-full rounded-md border border-gray-700 bg-gray-900 p-4">
             <pre className="text-sm text-gray-300 whitespace-pre-wrap">
               {data.pipeline_yaml || "No pipeline generated"}
@@ -137,6 +154,7 @@ function PipelineResults({ data }: { data: any }) {
 }
 
 function ValidationResults({ data }: { data: any }) {
+  const { validatePipelineWithAI, isRunning, results } = useWorkflow()
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="space-y-6">
       <Card className="bg-gray-950 border-gray-800">
@@ -147,6 +165,16 @@ function ValidationResults({ data }: { data: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
+          <div className="flex flex-row gap-4 mb-4">
+            <Button
+              variant="outline"
+              className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
+              disabled={isRunning || !results.pipeline?.pipeline_yaml}
+              onClick={() => validatePipelineWithAI(results.pipeline?.pipeline_yaml || "", results.analysis?.repo_url || "")}
+            >
+              Validate Pipeline with AI (uses OpenAI credits)
+            </Button>
+          </div>
           <div className="flex items-center gap-2">
             {data.valid ? (
               <CheckCircle className="w-5 h-5 text-green-400" />

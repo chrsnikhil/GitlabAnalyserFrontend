@@ -215,6 +215,73 @@ export function useWorkflow() {
     toast.info("Workflow reset. Ready for new analysis.")
   }, [])
 
+  // AI-powered pipeline generation
+  const generatePipelineWithAI = useCallback(async (data: WorkflowData) => {
+    toast.warning("This will use your OpenAI credits. Proceeding with AI pipeline generation...")
+    setIsRunning(true)
+    setError(null)
+    setResults((prev) => ({ ...prev, pipeline: undefined }))
+    setCurrentStep("pipeline")
+    toast.loading("Generating CI/CD pipeline with OpenAI...", { id: "pipeline-ai" })
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/generate-pipeline-ai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          repo_url: data.repositoryUrl,
+          branch: data.branch,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`AI pipeline generation failed: ${response.statusText}`)
+      }
+      const respData = await response.json()
+      const pipelineResult = await pollStatus(respData.operation_id)
+      setResults((prev) => ({ ...prev, pipeline: pipelineResult }))
+      toast.success("Pipeline generated with OpenAI!", { id: "pipeline-ai" })
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "An unknown error occurred"
+      setError(errorMessage)
+      toast.error(`AI pipeline generation failed: ${errorMessage}`)
+    } finally {
+      setIsRunning(false)
+      setCurrentStep("")
+    }
+  }, [])
+
+  // AI-powered pipeline validation
+  const validatePipelineWithAI = useCallback(async (pipelineYaml: string, repoUrl: string) => {
+    toast.warning("This will use your OpenAI credits. Proceeding with AI pipeline validation...")
+    setIsRunning(true)
+    setError(null)
+    setCurrentStep("validation")
+    toast.loading("Validating pipeline with OpenAI...", { id: "validation-ai" })
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/validate-pipeline-ai`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          pipeline_yaml: pipelineYaml,
+          repo_url: repoUrl,
+        }),
+      })
+      if (!response.ok) {
+        throw new Error(`AI pipeline validation failed: ${response.statusText}`)
+      }
+      const respData = await response.json()
+      const validationResult = await pollStatus(respData.operation_id)
+      setResults((prev) => ({ ...prev, validation: validationResult }))
+      toast.success("Pipeline validated with OpenAI!", { id: "validation-ai" })
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : "An unknown error occurred"
+      setError(errorMessage)
+      toast.error(`AI pipeline validation failed: ${errorMessage}`)
+    } finally {
+      setIsRunning(false)
+      setCurrentStep("")
+    }
+  }, [])
+
   return {
     isRunning,
     currentStep,
@@ -224,5 +291,7 @@ export function useWorkflow() {
     resetWorkflow,
     showReportModal,
     setShowReportModal,
+    generatePipelineWithAI,
+    validatePipelineWithAI,
   }
 }
