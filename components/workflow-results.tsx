@@ -117,6 +117,7 @@ function AnalysisResults({ data }: { data: any }) {
 }
 
 function PipelineResults({ data, workflow }: { data: any, workflow: any }) {
+  console.log("PipelineResults data:", data);
   return (
     <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}>
       <Card className="bg-gray-950 border-gray-800">
@@ -139,7 +140,9 @@ function PipelineResults({ data, workflow }: { data: any, workflow: any }) {
           </div>
           <ScrollArea className="h-96 w-full rounded-md border border-gray-700 bg-gray-900 p-4">
             <pre className="text-sm text-gray-300 whitespace-pre-wrap">
-              {data.pipeline_yaml || "No pipeline generated"}
+              {(typeof data.pipeline_yaml === "string" && data.pipeline_yaml.trim().length > 0)
+                ? data.pipeline_yaml
+                : "No pipeline generated"}
             </pre>
           </ScrollArea>
         </CardContent>
