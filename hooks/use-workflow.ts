@@ -78,7 +78,7 @@ export function useWorkflow() {
   }
 
   const startWorkflow = useCallback(async (data: WorkflowData) => {
-    console.log("startWorkflow called with:", data);
+    console.log("startWorkflow called with:", data, data.repositoryUrl, data.branch, data.focusAreas);
     setLastRepoUrl(data.repositoryUrl)
     setLastBranch(data.branch || "main")
     setIsRunning(true)
