@@ -133,11 +133,7 @@ function PipelineResults({ data }: { data: any }) {
               variant="outline"
               className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
               disabled={isRunning}
-              onClick={() => generatePipelineWithAI({
-                repositoryUrl: results.analysis?.repo_url || results.analysis?.repositoryUrl || "",
-                branch: results.analysis?.branch || "main",
-                focusAreas: [],
-              })}
+              onClick={() => generatePipelineWithAI()}
             >
               Generate Pipeline with AI (uses OpenAI credits)
             </Button>
@@ -170,7 +166,7 @@ function ValidationResults({ data }: { data: any }) {
               variant="outline"
               className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
               disabled={isRunning || !results.pipeline?.pipeline_yaml}
-              onClick={() => validatePipelineWithAI(results.pipeline?.pipeline_yaml || "", results.analysis?.repo_url || "")}
+              onClick={() => validatePipelineWithAI(results.pipeline?.pipeline_yaml || "")}
             >
               Validate Pipeline with AI (uses OpenAI credits)
             </Button>

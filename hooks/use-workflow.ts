@@ -22,6 +22,8 @@ export function useWorkflow() {
   const [results, setResults] = useState<WorkflowResults>({})
   const [error, setError] = useState<string | null>(null)
   const [showReportModal, setShowReportModal] = useState(false)
+  const [lastRepoUrl, setLastRepoUrl] = useState<string>("")
+  const [lastBranch, setLastBranch] = useState<string>("main")
 
   const pollStatus = async (operationId: string): Promise<any> => {
     const maxAttempts = 60 // 5 minutes with 5-second intervals
@@ -76,6 +78,8 @@ export function useWorkflow() {
   }
 
   const startWorkflow = useCallback(async (data: WorkflowData) => {
+    setLastRepoUrl(data.repositoryUrl)
+    setLastBranch(data.branch || "main")
     setIsRunning(true)
     setError(null)
     setResults({})
@@ -216,7 +220,7 @@ export function useWorkflow() {
   }, [])
 
   // AI-powered pipeline generation
-  const generatePipelineWithAI = useCallback(async (data: WorkflowData) => {
+  const generatePipelineWithAI = useCallback(async () => {
     toast.warning("This will use your OpenAI credits. Proceeding with AI pipeline generation...")
     setIsRunning(true)
     setError(null)
@@ -228,8 +232,8 @@ export function useWorkflow() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          repo_url: data.repositoryUrl,
-          branch: data.branch
+          repo_url: lastRepoUrl,
+          branch: lastBranch
         }),
       })
       if (!response.ok) {
@@ -247,10 +251,10 @@ export function useWorkflow() {
       setIsRunning(false)
       setCurrentStep("")
     }
-  }, [])
+  }, [lastRepoUrl, lastBranch])
 
   // AI-powered pipeline validation
-  const validatePipelineWithAI = useCallback(async (pipelineYaml: string, repoUrl: string) => {
+  const validatePipelineWithAI = useCallback(async (pipelineYaml: string) => {
     toast.warning("This will use your OpenAI credits. Proceeding with AI pipeline validation...")
     setIsRunning(true)
     setError(null)
@@ -262,7 +266,7 @@ export function useWorkflow() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           pipeline_yaml: pipelineYaml,
-          repo_url: repoUrl,
+          repo_url: lastRepoUrl,
         }),
       })
       if (!response.ok) {
@@ -280,7 +284,7 @@ export function useWorkflow() {
       setIsRunning(false)
       setCurrentStep("")
     }
-  }, [])
+  }, [lastRepoUrl])
 
   return {
     isRunning,
