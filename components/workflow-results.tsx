@@ -128,16 +128,6 @@ function PipelineResults({ data, workflow }: { data: any, workflow: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="flex flex-row gap-4 mb-4">
-            <Button
-              variant="outline"
-              className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
-              disabled={workflow.isRunning}
-              onClick={() => workflow.generatePipelineWithAI()}
-            >
-              Generate Pipeline with AI (uses OpenAI credits)
-            </Button>
-          </div>
           <ScrollArea className="h-96 w-full rounded-md border border-gray-700 bg-gray-900 p-4">
             <pre className="text-sm text-gray-300 whitespace-pre-wrap">
               {(typeof data.pipeline_yaml === "string" && data.pipeline_yaml.trim().length > 0)
@@ -162,16 +152,6 @@ function ValidationResults({ data, workflow }: { data: any, workflow: any }) {
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
-          <div className="flex flex-row gap-4 mb-4">
-            <Button
-              variant="outline"
-              className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
-              disabled={workflow.isRunning || !results.pipeline?.pipeline_yaml}
-              onClick={() => workflow.validatePipelineWithAI(results.pipeline?.pipeline_yaml || "")}
-            >
-              Validate Pipeline with AI (uses OpenAI credits)
-            </Button>
-          </div>
           <div className="flex items-center gap-2">
             {data.valid ? (
               <CheckCircle className="w-5 h-5 text-green-400" />
