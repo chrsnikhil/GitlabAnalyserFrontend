@@ -221,6 +221,11 @@ export function useWorkflow() {
 
   // AI-powered pipeline generation
   const generatePipelineWithAI = useCallback(async () => {
+    if (!lastRepoUrl || !/^https?:\/\//.test(lastRepoUrl)) {
+      toast.error("Repository URL is missing or invalid. Please start the workflow analysis first.")
+      console.error("Invalid repo_url for AI pipeline generation:", lastRepoUrl)
+      return
+    }
     toast.warning("This will use your OpenAI credits. Proceeding with AI pipeline generation...")
     setIsRunning(true)
     setError(null)
@@ -228,6 +233,7 @@ export function useWorkflow() {
     setCurrentStep("pipeline")
     toast.loading("Generating CI/CD pipeline with OpenAI...", { id: "pipeline-ai" })
     try {
+      console.log("Calling AI pipeline generation with:", lastRepoUrl, lastBranch)
       const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/generate-pipeline-ai`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
