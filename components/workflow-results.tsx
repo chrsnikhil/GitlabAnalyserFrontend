@@ -239,7 +239,7 @@ export function ReviewResults({ data }: { data: any }) {
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2">
               <Star className="w-5 h-5 text-yellow-400" />
-              <span className="text-white font-medium">Score: {data.score || "N/A"}/100</span>
+              <span className="text-white font-medium">Score: {typeof data.score === 'number' ? (data.score.toFixed(1)) : "N/A"}/10</span>
             </div>
             <Badge variant="outline" className="text-white border-gray-600">
               {data.findings?.length || 0} findings
@@ -249,7 +249,7 @@ export function ReviewResults({ data }: { data: any }) {
           {data.summary && (
             <div className="p-4 bg-gray-900 rounded-lg">
               <h4 className="font-medium text-white mb-2">Summary</h4>
-              <p className="text-gray-300 text-sm">{data.summary}</p>
+              <div className="text-gray-300 text-sm whitespace-pre-line">{data.summary}</div>
             </div>
           )}
 
