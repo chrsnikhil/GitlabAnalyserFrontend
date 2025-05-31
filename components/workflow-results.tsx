@@ -134,7 +134,7 @@ function PipelineResults({ data }: { data: any }) {
               className="bg-yellow-900 text-yellow-300 border-yellow-700 hover:bg-yellow-800"
               disabled={isRunning}
               onClick={() => generatePipelineWithAI({
-                repositoryUrl: results.analysis?.repo_url || "",
+                repositoryUrl: results.analysis?.repo_url || results.analysis?.repositoryUrl || "",
                 branch: results.analysis?.branch || "main",
                 focusAreas: [],
               })}
