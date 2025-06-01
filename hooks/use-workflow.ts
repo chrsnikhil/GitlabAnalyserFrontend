@@ -79,6 +79,19 @@ export function useWorkflow() {
 
   const startWorkflow = useCallback(async (data: WorkflowData) => {
     console.log("startWorkflow called with:", data, data.repositoryUrl, data.branch, data.focusAreas);
+    
+    // Validate URL format
+    try {
+      const url = new URL(data.repositoryUrl);
+      if (!url.hostname.includes('gitlab.com')) {
+        throw new Error('Please enter a valid GitLab repository URL (e.g., https://gitlab.com/username/repository)');
+      }
+    } catch (err) {
+      setError('Please enter a valid GitLab repository URL (e.g., https://gitlab.com/username/repository)');
+      toast.error('Invalid URL format. Please enter a valid GitLab repository URL.');
+      return;
+    }
+
     setLastRepoUrl(data.repositoryUrl)
     setLastBranch(data.branch || "main")
     setIsRunning(true)
@@ -102,7 +115,13 @@ export function useWorkflow() {
       })
 
       if (!analysisResponse.ok) {
-        throw new Error(`Analysis failed: ${analysisResponse.statusText}`)
+        if (analysisResponse.status === 404) {
+          throw new Error('Repository not found. Please check if the URL is correct and the repository is public.');
+        } else if (analysisResponse.status === 403) {
+          throw new Error('Access denied. Please ensure the repository is public or you have the correct permissions.');
+        } else {
+          throw new Error(`Analysis failed: ${analysisResponse.statusText}`);
+        }
       }
 
       const analysisData = await analysisResponse.json()

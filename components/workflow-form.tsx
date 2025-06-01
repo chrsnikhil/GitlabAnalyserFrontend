@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { GitBranch, Globe, Shield, Zap, CheckCircle } from "lucide-react"
+import { toast } from "sonner"
 
 interface WorkflowFormProps {
   workflow: any
@@ -30,6 +31,18 @@ export function WorkflowForm({ workflow }: WorkflowFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     if (!repositoryUrl.trim()) return
+
+    // Validate URL format
+    try {
+      const url = new URL(repositoryUrl.trim());
+      if (!url.hostname.includes('gitlab.com')) {
+        toast.error('Please enter a valid GitLab repository URL (e.g., https://gitlab.com/username/repository)');
+        return;
+      }
+    } catch (err) {
+      toast.error('Please enter a valid GitLab repository URL (e.g., https://gitlab.com/username/repository)');
+      return;
+    }
 
     setIsSubmitting(true)
     try {
