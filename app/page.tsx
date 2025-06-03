@@ -56,16 +56,16 @@ export default function LandingPage() {
               variants={fadeInUp}
               className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
             >
-              GitLab Workflow
+              Agent Ops
               <br />
-              <span className="text-white">Analyzer</span>
+              <span className="text-white">GitLab CI/CD Generator</span>
             </motion.h1>
 
             <motion.p
               variants={fadeInUp}
               className="text-xl md:text-2xl text-gray-400 mb-8 max-w-3xl mx-auto leading-relaxed"
             >
-              Automatically analyze your GitLab repositories, generate optimized CI/CD pipelines, and get comprehensive
+              Automatically analyze your GitLab repositories, generate optimized CI/CD pipelines using prebuilt templates, and get comprehensive
               code reviews powered by AI.
             </motion.p>
 
@@ -245,31 +245,40 @@ export default function LandingPage() {
                 <CardContent className="p-8">
                   <div className="prose prose-invert max-w-none">
                     <p className="text-lg text-gray-300 leading-relaxed mb-6">
-                      GitLab Workflow Analyzer is an advanced AI-powered platform designed to revolutionize how
+                      Agent Ops is an advanced AI-powered platform designed to revolutionize how
                       development teams approach CI/CD pipeline optimization and code quality assurance.
                     </p>
-
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mt-8">
-                      <div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Key Technologies</h3>
-                        <ul className="space-y-2 text-gray-400">
-                          <li>• Next.js & React for modern frontend</li>
-                          <li>• AI-powered code analysis</li>
-                          <li>• GitLab API integration</li>
-                          <li>• Real-time workflow monitoring</li>
-                          <li>• Automated pipeline generation</li>
-                        </ul>
+                    <div className="flex flex-col space-y-4">
+                      <div className="flex items-center space-x-4">
+                        <Github className="w-6 h-6" />
+                        <a
+                          href="https://github.com/chrsnikhil/GitlabAnalyserFrontend"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300"
+                        >
+                          Frontend Repository
+                        </a>
                       </div>
-
-                      <div>
-                        <h3 className="text-xl font-semibold text-white mb-4">Benefits</h3>
-                        <ul className="space-y-2 text-gray-400">
-                          <li>• Reduce deployment time by 60%</li>
-                          <li>• Improve code quality scores</li>
-                          <li>• Automated security scanning</li>
-                          <li>• Performance optimization</li>
-                          <li>• Team collaboration tools</li>
-                        </ul>
+                      <div className="flex items-center space-x-4">
+                        <Github className="w-6 h-6" />
+                        <a
+                          href="https://github.com/chrsnikhil/GitlabAnalyserBackend"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-400 hover:text-blue-300"
+                        >
+                          Backend Repository
+                        </a>
+                      </div>
+                      <div className="flex items-center space-x-4">
+                        <Mail className="w-6 h-6" />
+                        <a
+                          href="mailto:chrsnikhil@gmail.com"
+                          className="text-blue-400 hover:text-blue-300"
+                        >
+                          chrsnikhil@gmail.com
+                        </a>
                       </div>
                     </div>
                   </div>
@@ -300,23 +309,17 @@ export default function LandingPage() {
             <motion.div variants={fadeInUp}>
               <Card className="bg-gray-950 border-gray-800">
                 <CardContent className="p-8">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div className="text-center">
                       <Mail className="w-12 h-12 text-blue-400 mx-auto mb-4" />
                       <h3 className="text-xl font-semibold text-white mb-2">Email</h3>
-                      <p className="text-gray-400">support@gitlabanalyzer.com</p>
+                      <p className="text-gray-400">chrsnikhil@gmail.com</p>
                     </div>
 
                     <div className="text-center">
                       <Github className="w-12 h-12 text-green-400 mx-auto mb-4" />
                       <h3 className="text-xl font-semibold text-white mb-2">GitHub</h3>
-                      <p className="text-gray-400">github.com/gitlab-analyzer</p>
-                    </div>
-
-                    <div className="text-center">
-                      <Twitter className="w-12 h-12 text-purple-400 mx-auto mb-4" />
-                      <h3 className="text-xl font-semibold text-white mb-2">Twitter</h3>
-                      <p className="text-gray-400">@gitlabanalyzer</p>
+                      <p className="text-gray-400">github.com/chrsnikhil</p>
                     </div>
                   </div>
 
@@ -339,10 +342,9 @@ export default function LandingPage() {
       <footer className="border-t border-gray-800 py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 mb-4 md:mb-0">© 2024 GitLab Workflow Analyzer. All rights reserved.</div>
+            <div className="text-gray-400 mb-4 md:mb-0">© 2024 Agent Ops. All rights reserved.</div>
             <div className="flex space-x-6">
               <Github className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
-              <Twitter className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Linkedin className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
             </div>
           </div>

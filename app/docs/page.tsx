@@ -107,10 +107,11 @@ const sections = [
       {
         title: "Setup & Installation",
         content: `1. Clone the repository:
-   git clone https://github.com/chrsnikhil/your-repo.git
+   git clone https://github.com/chrsnikhil/GitlabAnalyserFrontend.git
+   git clone https://github.com/chrsnikhil/GitlabAnalyserBackend.git
 2. Install dependencies:
-   cd gitlab-workflow-frontend && npm install
-   cd ../gitlab-workflow-backend && pip install -r requirements.txt
+   cd GitlabAnalyserFrontend && npm install
+   cd ../GitlabAnalyserBackend && pip install -r requirements.txt
 3. Set up environment variables:
    - FRONTEND: Create a .env.local file for API URLs if needed
    - BACKEND: Set your OpenAI API key and other secrets in .env
@@ -118,7 +119,9 @@ const sections = [
    uvicorn main:app --reload
 5. Start the frontend:
    npm run dev
-6. Access the app at http://localhost:3000`,
+6. Access the app at http://localhost:3000
+
+Watch the demo video: https://www.youtube.com/watch?v=yUsPXShS3qc`,
       },
       {
         title: "Analyzing a Repository",
@@ -145,7 +148,10 @@ const sections = [
 - If you hit API rate limits, try again later or check your API key
 - For deployment to Google Cloud, ensure your credentials are set up
 - Check the Docs tab for more details on features, security, and performance
-- For issues, see the GitHub repo or contact support`,
+- For issues, see the GitHub repos:
+  • Frontend: https://github.com/chrsnikhil/GitlabAnalyserFrontend
+  • Backend: https://github.com/chrsnikhil/GitlabAnalyserBackend
+- Watch the demo: https://www.youtube.com/watch?v=yUsPXShS3qc`,
       },
     ]
   },
@@ -411,7 +417,7 @@ export default function DocsPage() {
               <br className="hidden md:block" />
             </div>
             <div className="flex items-center gap-6 mt-4">
-              <a href="https://github.com/chrsnikhil/your-repo" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+              <a href="https://github.com/chrsnikhil/GitlabAnalyserFrontend" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
                 <motion.div
                   whileHover={{ scale: 1.2, color: '#60a5fa' }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
@@ -421,7 +427,7 @@ export default function DocsPage() {
                   <FaGithub className="w-8 h-8 transition-colors" />
                 </motion.div>
               </a>
-              <a href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
+              <a href="https://www.youtube.com/watch?v=yUsPXShS3qc" target="_blank" rel="noopener noreferrer" aria-label="YouTube">
                 <motion.div
                   whileHover={{ scale: 1.2, color: '#ef4444' }}
                   transition={{ type: 'spring', stiffness: 400, damping: 20 }}
