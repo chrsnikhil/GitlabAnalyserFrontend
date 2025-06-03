@@ -99,10 +99,6 @@ Agent Ops follows a workflow-based approach:
 
 We welcome contributions! Please see the contributing guidelines in each repository for details.
 
-## 📄 License
-
-This project is licensed under the [Specify License, e.g., MIT License] - see the LICENSE file in each repository for details.
-
 ## 📫 Contact
 
 For questions or support, please contact chrsnikhil@gmail.com.
