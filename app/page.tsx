@@ -342,7 +342,7 @@ export default function LandingPage() {
       <footer className="border-t border-gray-800 py-8">
         <div className="container mx-auto px-4">
           <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="text-gray-400 mb-4 md:mb-0">© 2024 Agent Ops. All rights reserved.</div>
+            <div className="text-gray-400 mb-4 md:mb-0">© 2025 Agent Ops.</div>
             <div className="flex space-x-6">
               <Github className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
               <Linkedin className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer transition-colors" />
